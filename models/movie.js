@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         posterImg: {
-            type: DataTypes.varchar,
+            type: DataTypes.VATCHAR,
             allowNull: false
         },
         createdBy: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false
         },
         createdAt: {

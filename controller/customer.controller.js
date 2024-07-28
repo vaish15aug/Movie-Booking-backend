@@ -1,4 +1,4 @@
-const{Customer}=require('../models');
+const Customer=require('../models');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 
@@ -10,9 +10,9 @@ const salt = bcrypt.genSaltSync(10);
     const existingCustomer = await checkCustomer(customerData.email)
     
     if (existingCustomer){ 
-      return responce.status(409).send({msg:'Customer with this email already exists.'});
+      return res.status(409).send({msg:'Customer with this email already exists.'});
     }
-    const hash = bcrypt.hashSync(studentData.password, salt);
+    const hash = bcrypt.hashSync(customerData.password, salt);
     studentData['hashPassword'] = hash
     const createCustomer = await createCustomer(customerData)
     return res.status(201).send({ msg: 'Customer registered successfully.' });
