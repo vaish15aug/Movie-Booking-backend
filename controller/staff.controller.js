@@ -15,6 +15,12 @@ async function loginStaff(req, res) {
         return res.status(400).send(error.message)
     }
 
+    // find staff by email
+    const staff = await staffService.findOne({ email });
+    if (!staff) {
+        return { status: 401, message: 'Invalid email.' };
+    }
+
     //check email password are provided
     const staffLogin = await staffService.createStaff(loginData.email, loginData.password)
     //validate 
@@ -22,11 +28,6 @@ async function loginStaff(req, res) {
         return res.status(400).send({ msg: ' email and password required.' });
     }
 
-    // find staff by email
-    const staff = await staffService.findOne({ email });
-    if (!staff) {
-        return { status: 401, message: 'Invalid email.' };
-    }
     // compare password
     const result = bcrypt.compareSync(loginData.password, checkStaff.password, salt)
 

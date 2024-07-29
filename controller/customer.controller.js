@@ -1,5 +1,6 @@
 const Customer = require('../models');
 const customerSchema = require('../schema/customer.schema');
+const customerService = require('../services/customer.service');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 
@@ -8,11 +9,23 @@ async function signUp(req, res) {
     const customerData = req.body;
     console.log(customerData);
 
+    //validate request body
+    const { error, value } = customerSchema.customerCreateSchema.validate(customerData)
+    if (error) {
+        return res.status(400).send(error.message)
+    }
+    //check if email already exist
     const existingCustomer = await customerSchema.customerCreateSchema(customerData.email)
-
     if (existingCustomer) {
         return res.status(409).send({ msg: 'Customer with this email already exists.' });
     }
+
+    // check email and password
+    const checkCustomer = await customerService.createCustomer(customerData.email, customerData.password)
+    if (!checkCustomer) {
+        return res.status(400).send({ msg: ' email and password required.' });
+    }
+
     const hash = bcrypt.hashSync(customerData.password, salt);
     studentData['hashPassword'] = hash
     const createCustomer = await customerSchema.customerCreateSchema(customerData)
@@ -38,7 +51,7 @@ async function logIn(req, res) {
     }
 
     //check email password are provided
-    const loginCustomer = await customerService.customerCreateSchema(loginData.email, loginData.password)
+    const loginCustomer = await customerService.createCustomer(loginData.email, loginData.password)
     //validate 
     if (!loginCustomer) {
         return res.status(400).send({ msg: ' email and password required.' });

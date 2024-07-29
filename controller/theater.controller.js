@@ -14,17 +14,17 @@ async function theaterRegister(req, res) {
          return res.status(400).send(error.message)
      }
 
-    const registerTheater = await theaterService.createTheater(registerData.email, registerData.password)
-    //validate 
-    if (!registerTheater) {
-        return res.status(400).send({ msg: ' email and password required.' });
-    }
-    //check if email already exist
+     //check if email already exist
     const existingTheater = await theaterService.createTheater(registerData.email);
     if (existingTheater) {
         return res.status(409).send({ msg: 'Email already exist.' });
     }
-
+        // check email and password
+    const registerTheater = await theaterService.createTheater(registerData.email, registerData.password) 
+    if (!registerTheater) {
+        return res.status(400).send({ msg: ' email and password required.' });
+    }
+    
     const hash = bcrypt.hashSync(registerData.password, salt);
     registerData['hashPassword'] = hash
     // create theater
