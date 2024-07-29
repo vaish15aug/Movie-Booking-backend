@@ -51,7 +51,7 @@ async function logIn(req, res) {
     }
 
     //check email password are provided
-    const loginCustomer = await customerService.createCustomer(loginData.email, loginData.password)
+    const loginCustomer = await customerService.createCustomer(customerLogin.email, customerLogin.password)
     //validate 
     if (!loginCustomer) {
         return res.status(400).send({ msg: ' email and password required.' });

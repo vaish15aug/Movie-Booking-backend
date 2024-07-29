@@ -2,7 +2,7 @@ const jwt=require("jsonwebtoken");
 const AppAdmin=require('../models/appAdmin');
 
 
-async function verifyToken(req,res,next)=>{
+async function verifyToken(req,res,next) => {
     const token = req.body;
     console.log(token);
 
@@ -15,4 +15,4 @@ async function verifyToken(req,res,next)=>{
         return res.status(401).send({msg:'Unauthorized'});
     }
     req.
- })
+ });

@@ -24,6 +24,7 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+console.log('Starting server on port',port);
 
 server.listen(port);
 server.on('error', onError);
@@ -54,6 +55,7 @@ function normalizePort(val) {
  */
 
 function onError(error) {
+  
   if (error.syscall !== 'listen') {
     throw error;
   }

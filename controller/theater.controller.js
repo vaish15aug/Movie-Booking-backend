@@ -25,6 +25,7 @@ async function theaterRegister(req, res) {
         return res.status(400).send({ msg: ' email and password required.' });
     }
     
+
     const hash = bcrypt.hashSync(registerData.password, salt);
     registerData['hashPassword'] = hash
     // create theater
