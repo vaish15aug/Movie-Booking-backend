@@ -1,33 +1,47 @@
-const Customer=require('../models');
+const Customer = require('../models');
+const customerSchema = require('../schema/customer.schema');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 
 //signUp function
- async function signUp(req,res){
-   const customerData= req.body;
-   console.log(customerData);
+async function signUp(req, res) {
+    const customerData = req.body;
+    console.log(customerData);
 
-    const existingCustomer = await checkCustomer(customerData.email)
-    
-    if (existingCustomer){ 
-      return res.status(409).send({msg:'Customer with this email already exists.'});
+    const existingCustomer = await customerSchema.customerCreateSchema(customerData.email)
+
+    if (existingCustomer) {
+        return res.status(409).send({ msg: 'Customer with this email already exists.' });
     }
     const hash = bcrypt.hashSync(customerData.password, salt);
     studentData['hashPassword'] = hash
-    const createCustomer = await createCustomer(customerData)
+    const createCustomer = await customerSchema.customerCreateSchema(customerData)
     return res.status(201).send({ msg: 'Customer registered successfully.' });
 
- }
+}
 
- //LogIn function
- async function logIn(req,res){
-    const customerLogin=req.body;
+//LogIn function
+async function logIn(req, res) {
+    const customerLogin = req.body;
     console.log(customerLogin);
 
+    //validate request body
+    const { error, value } = customerSchema.customerCreateSchema.validate(customerLogin)
+    if (error) {
+        return res.status(400).send(error.message)
+    }
+
     //check if customer exist
-    const checkCustomer= await checkCustomer(customerLogin.email);
-    if(!checkCustomer){
-        return res.status(404).send({msg:'Invalid email'});
+    const checkCustomer = await customerSchema.customerCreateSchema(customerLogin.email);
+    if (!checkCustomer) {
+        return res.status(404).send({ msg: 'Invalid email' });
+    }
+
+    //check email password are provided
+    const loginCustomer = await customerService.customerCreateSchema(loginData.email, loginData.password)
+    //validate 
+    if (!loginCustomer) {
+        return res.status(400).send({ msg: ' email and password required.' });
     }
 
     //compare password
@@ -44,25 +58,25 @@ const salt = bcrypt.genSaltSync(10);
         return res.status(200).send({ msg: 'login successfull.', token });
     }
 
- }
+}
 
- // Update profile
+// Update profile
 
- async function updateProfile(req,res){
-    const update=req.body;
-    const{email}=update;
+async function updateProfile(req, res) {
+    const update = req.body;
+    const { email } = update;
     console.log(update);
-    const updateData = await Customer.findOne({where:{email}});
+    const updateData = await Customer.findOne({ where: { email } });
     if (!Customer) {
-        return res.staus().send({msg:'Customer not found'});
+        return res.staus().send({ msg: 'Customer not found' });
     }
 
-    const updateCustomer= await Customer(updateData)
-       return res.status(201).send({msg:'data update successfully'});
-    
+    const updateCustomer = await Customer(updateData)
+    return res.status(201).send({ msg: 'data update successfully' });
+
 };
 
 //delete Account
 
 
-    module.exports={signUp,logIn,updateProfile};
+module.exports = { signUp, logIn, updateProfile };

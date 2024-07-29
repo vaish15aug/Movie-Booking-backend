@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        isCustomer: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
         customerName: {
 
             type: DataTypes.STRING,
