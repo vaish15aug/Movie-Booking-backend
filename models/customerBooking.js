@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         totalAmount: {
-            type: DataTypes.STRING,
+            type: DataTypes.FLOAT,
             allowNull: false
         },
         createdAt: {

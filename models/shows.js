@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TIME,
             allowNull: false
         },
+        ticketPrice:{
+            type: DataTypes.FLOAT,
+            allowNull:false
+        },
         screen: {
             type: DataTypes.STRING,
             allowNull: false

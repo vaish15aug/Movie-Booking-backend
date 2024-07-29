@@ -3,6 +3,7 @@ const customerSchema = require('../schema/customer.schema');
 const customerService = require('../services/customer.service');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
+const redisService= require('redis');
 
 //signUp function
 async function signUp(req, res) {
