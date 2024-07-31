@@ -1,35 +1,20 @@
 const staffService = require('../services/staff.service');
-const staffSchema = require('../schema/staff.schema')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const salt = bcrypt.genSaltSync(10);
 const jwtHelper = require('../helpers/jwtHelper');
 
 async function loginStaff(req, res) {
     const loginData = req.body;
     console.log(loginData);
 
-    //validate request body
-    const { error, value } = staffSchema.staffCreateSchema.validate(loginData)
-    if (error) {
-        return res.status(400).send(error.message)
-    }
-
     // find staff by email
-    const staff = await staffService.findOne({ email });
-    if (!staff) {
-        return { status: 401, message: 'Invalid email.' };
-    }
-
-    //check email password are provided
-    const staffLogin = await staffService.createStaff(loginData.email, loginData.password)
-    //validate 
-    if (!staffLogin) {
-        return res.status(400).send({ msg: ' email and password required.' });
+    const checkStaff = await staffService.checkStaff(loginData.email);
+    if (!checkStaff) {
+        return res.status(404).send({msg:'Invalid email'});
     }
 
     // compare password
-    const result = bcrypt.compareSync(loginData.password, checkStaff.password, salt)
+    const result = bcrypt.compareSync(loginData.password, checkStaff.password)
 
     //create jwt payload and token
     if (result == true) {
@@ -42,5 +27,9 @@ async function loginStaff(req, res) {
 
         return res.status(200).send({ msg: 'login successfull.', token });
     }
+    else{
+        return res.status(400).send({msg:'Invalid Password'});
+    }
 }
+
 module.exports = { loginStaff };

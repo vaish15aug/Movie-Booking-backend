@@ -1,21 +1,23 @@
 const jwt = require('jsonwebtoken');
-const staffController= require('../controller/staff.controller');
+
 
 // Function to generate a JWT token
-const generateToken = (payload, secret, expiresIn = '8h') => {
+const generateToken = (payload,expiresIn = '8h') => {
+    const secret =process.env.SECRET_KEY;
     return jwt.sign(payload, secret, { expiresIn });
 };
 
 // Function to verify a JWT token
-const verifyToken = (token, secret) => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(decoded);
-        });
-    });
+const verifyToken = (token) => {
+    try{
+        const secret=process.env.SECRET_KEY;
+        const payload=jwt.verify(token,secret);
+        return payload;
+    }
+    catch(error){
+        throw Error('invalid token or token expire');
+    }
+    
 };
 
 module.exports = { generateToken, verifyToken };

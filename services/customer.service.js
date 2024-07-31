@@ -1,12 +1,21 @@
 const db = require('../models');
 const customerModel = db.Customer;
 
-    // declaring create customer function
-    const createCustomer = async (customerData) => {
+async function checkCustomer(email) {
+    const checkCustomer = await db.Staff.findOne({
+        where:
+        {
+            email: email
 
-    //create new customer record in DataBase
+        },
+        raw: true
+    });
+    return checkCustomer;
+}
+    const createCustomer = async (customerData) => {
+     //create new customer record in DataBase
     const customer = await customerModel.create(customerData);
 
     return customer;
 }
-module.exports = { createCustomer };
+module.exports = { createCustomer,checkCustomer };

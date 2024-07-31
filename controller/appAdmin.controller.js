@@ -1,10 +1,9 @@
-const AppAdmin=require('../models');
-const appAdminSchema=require('../schema/appAdmin.schema');
-const appAdminService=require('../services/appAdmin.service');
-const bcrypt=require('bcrypt');
-const dotenv=require('.env')
+
+const appAdminSchema = require('../schema/appAdmin.schema');
+const appAdminService = require('../services/appAdmin.service');
+const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
-const redisService= require('redis');
+const redisService = require('redis');
 
 
 //signUp function
@@ -18,7 +17,7 @@ async function signUp(req, res) {
         return res.status(400).send(error.message)
     }
     //check if email already exist
-    const existingAdmin = await appAdminSchema.appAdminCreateSchema(adminData.email)
+    const existingAdmin = await appAdminService.createAdmin(adminData.email)
     if (existingAdmin) {
         return res.status(409).send({ msg: 'Admin with this email already exists.' });
     }
@@ -31,37 +30,24 @@ async function signUp(req, res) {
 
     const hash = bcrypt.hashSync(adminData.password, salt);
     studentData['hashPassword'] = hash
-    const createAdmin = await appAdminSchema.appAdminCreateSchema(adminData)
+    const createAdmin = await appAdminService.createAdmin(adminData)
     return res.status(201).send({ msg: 'Admin registered successfully.' });
 
 }
 //  login function
- 
+
 async function logIn(req, res) {
     const adminLogin = req.body;
     console.log(adminLogin);
 
-    //validate request body
-    const { error, value } = appAdminSchema.appAdminCreateSchema.validate(adminLogin)
-    if (error) {
-        return res.status(400).send(error.message)
-    }
-
     //check if Admin exist
-    const checkAdmin = await appAdminSchema.appAdminCreateSchema(adminLogin.email);
+    const checkAdmin = await appAdminService.checkAdmin(adminLogin.email);
     if (!checkAdmin) {
         return res.status(404).send({ msg: 'Invalid email' });
     }
-
-    //check email password are provided
-    const loginAdmin = await appAdminService.createAdmin(adminLogin.email, adminLogin.password)
-    //validate 
-    if (!loginAdmin) {
-        return res.status(400).send({ msg: ' email and password required.' });
-    }
-
     //compare password
     const result = bcrypt.compareSync(adminLogin.password, checkAdmin.password)
+    
     // create jwt payload ad token
     if (result == true) {
 
@@ -73,15 +59,29 @@ async function logIn(req, res) {
 
         return res.status(200).send({ msg: 'login successfull.', token });
     }
-
+    else{
+        return res.status(400).send({msg:'Invalid Password'});
+    }
 }
 
 //logout function
 
+async function logOut(req, res) {
+    const adminLogout = req.body;
+    console.log(adminLogout);
+
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(422).send(error.message)
+    }
+
+    await redisService.delData(token);
+    return res.status(200).send({ msg: 'logOut Successfull' });
+}
 
 
 
-module.exports={signUp,logIn,logOut}
+module.exports = { signUp, logIn, logOut }
 
 
 

@@ -7,27 +7,15 @@ client.on('error', (err) => {
 });
 
 // Function to set a value in Redis
-const setValue = (key, value, expiryInSeconds) => {
-    return new Promise((resolve, reject) => {
-        client.setex(key, expiryInSeconds, value, (err, reply) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(reply);
-        });
-    });
+const setValue = async (key, value, expiryInSeconds) => {
+    await client.set(key, JSON.stringify(value), { EX:expiryInSeconds });
 };
 
 // Function to get a value from Redis
-const getValue = (key) => {
-    return new Promise((resolve, reject) => {
-        client.get(key, (err, value) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(value);
-        });
-    });
+const getValue = async (key) => {
+    const data = await client.get(key);
+    const parsedData = JSON.parse(data);
+    return parsedData;
 };
 
 module.exports = { setValue, getValue };

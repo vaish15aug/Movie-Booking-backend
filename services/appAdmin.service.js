@@ -2,7 +2,17 @@
 const db = require('../models');
 const appAdminModel = db.AppAdmin;
 
-// declaring create admin function
+async function checkAdmin(email) {
+    const checkAdmin = await db.Staff.findOne({
+        where:
+        {
+            email: email
+
+        },
+        raw: true
+    });
+    return checkAdmin;
+}
 const createAdmin = async (adminData) => {
 
     //create new admin record in DataBase
@@ -10,4 +20,4 @@ const createAdmin = async (adminData) => {
 
     return admin;
 }
-module.exports = { createAdmin };
+module.exports = { createAdmin,checkAdmin };
