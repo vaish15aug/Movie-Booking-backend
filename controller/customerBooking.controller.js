@@ -9,12 +9,17 @@ async function createBooking(req,res){
     const bookingData=req.body;
     console.log(bookingData);
 
-const {error}= customerBookingSchema.createCustomerBooking.validate(bookingData);
-if(error){
-    return res.status(400).send(error.message);
 
-}
-const createdBooking=customerBookingService.
+    const { error, value } = customerBookingSchema.customerBookingCreateSchema.validate(bookingData);
+    if (error) {
+        return res.status(422).send(error.message);
+
+    }
+    const user = res.locals.verify;
+    const userId = user.id;
+    customerData["createdBy"] = userId;
+    const createdCustomerBooking = await customerBookingService.customerBookingService(bookingData);
+    return res.status(201).send({ msg: ' cust' });
 }
 
 module.exports={createBooking}

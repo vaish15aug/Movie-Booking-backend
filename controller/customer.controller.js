@@ -76,7 +76,7 @@ async function updateProfile(req, res) {
     }
 
     const updateCustomer = await Customer(updateData)
-    return res.status(201).send({ msg: 'data update successfully' });
+    return res.status(201).send({ msg: ' data update successfully' });
 
 };
 

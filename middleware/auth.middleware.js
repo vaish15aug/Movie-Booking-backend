@@ -1,18 +1,68 @@
-const jwt=require("jsonwebtoken");
-const AppAdmin=require('../models/appAdmin');
+const jwtHelper = require('../helpers/jwtHelper');
 
+const checkJwt = async (req, res, next) => {
+    try {
+        const headers = req.headers;
+        const auth = headers['authorization'];
+        
+        if (auth) {
+            const token = auth.split(' ')[1];
+            const gData = await redisService.getData(token);
+            if (!gData) {
+                return res.status(403).send({ message: 'request forbidden' });
 
-async function verifyToken(req,res,next) => {
-    const token = req.body;
-    console.log(token);
+            }
+            const user = jwtHelper.verifyToken(token);
+            res.locals.verify = user;
+            return next();
 
-    if(!token){
-        return res.status(403).send({msg:'no token provided'});
+        }
+        else {
+            return res.status(401).send({ message: 'No Token Provided' })
+        }
     }
+    catch (err) {
+        console.log(err);
+        return res.status(500).send({ msg: 'Invalid Token' });
+    }
+
 }
- jwt.verify(token,config.secret,(error,decoded)=>{
-    if (error){
-        return res.status(401).send({msg:'Unauthorized'});
+
+const isAppAdmin= async(req,res,next)=>{
+    try{
+        const user=res.locals.verify;
+        const isAdmin=user.isAppAdmin;
+        if(!isAdmin){
+            return res.status(400).send({message:'permission denied'})
+        
+        }
+        else{
+            return next();
+        }
     }
-    req.
- });
+    catch(err){
+        console.log(err);
+        return res.status(400).send({message:'permission denied'})
+
+    }
+
+}
+
+const isTheaterAdmin=async(req,res, next)=>{
+    try{
+        const user=res.locals.verify;
+        const isAdmin=user.isAdmin;
+        if(!isAdmin){
+            return res.status(400).send({message:'permission denied'})
+        }
+        else{
+            return next();
+        }
+    }
+        catch(err){
+            console.log(err);
+            return res.status(400).send({message:'permission denied'})
+        }
+    }
+
+module.exports = { checkJwt, isAppAdmin,isTheaterAdmin }

@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Shows = sequelize.define('shows', {
 
-        showId: {
+        id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        reatedBy: {
+        createdBy: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -55,3 +55,8 @@ module.exports = (sequelize, DataTypes) => {
     });
     return Shows;
 }
+
+
+
+
+
