@@ -9,16 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         customerId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-
+            allowNull: false
+            
         },
         showId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
+            allowNull: false         
         },
         ticketCount: {
             type: DataTypes.INTEGER,
@@ -29,12 +25,18 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         createdAt: {
-            type: timestamps
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         updatedAt: {
-            type: timestamps
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         }
 
-    });
+        });
     return CustomerBooking;
 }
+
+

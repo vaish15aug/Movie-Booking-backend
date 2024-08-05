@@ -1,6 +1,6 @@
 const DataTypes = require('sequelize');
 require('dotenv').config();
-const dotenv=require('.env');
+
 
 
 const connection = new DataTypes(process.env.DB, process.env.DB_USER, process.env.DB_PASSWORD, {

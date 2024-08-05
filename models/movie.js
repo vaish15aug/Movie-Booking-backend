@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         posterImg: {
-            type: DataTypes.VATCHAR,
+            type: DataTypes.STRING,
             allowNull: false
         },
         createdBy: {
@@ -26,12 +26,16 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         createdAt: {
-            type: timestamps
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         updatedAt: {
-            type: timestamps
-        }
-
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
+        },
+    
     });
     return Movies;
 }

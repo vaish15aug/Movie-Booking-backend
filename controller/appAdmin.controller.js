@@ -67,6 +67,7 @@ async function logIn(req, res) {
 //logout function
 
 async function logOut(req, res) {
+    try{
     const adminLogout = req.body;
     console.log(adminLogout);
 
@@ -78,8 +79,11 @@ async function logOut(req, res) {
     await redisService.delData(token);
     return res.status(200).send({ msg: 'logOut Successfull' });
 }
-
-
+catch(error){
+    console.error('Error during logout:', error);
+    return res.status(500).json({ error: 'An unexpected error occurred' });
+}
+}
 
 module.exports = { signUp, logIn, logOut }
 

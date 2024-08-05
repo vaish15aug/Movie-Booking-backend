@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 const redisService = require('redis');
 
-//signUp function
+
+//customer signUp function
 async function signUp(req, res) {
     const customerData = req.body;
     console.log(customerData);
@@ -34,7 +35,7 @@ async function signUp(req, res) {
 
 }
 
-//LogIn function
+//customer LogIn function
 async function logIn(req, res) {
     const customerLogin = req.body;
     console.log(customerLogin);
@@ -58,13 +59,13 @@ async function logIn(req, res) {
 
         return res.status(200).send({ msg: 'login successfull.', token });
     }
-    else{
-        return res.status(400).send({msg:'Invalid password'});
+    else {
+        return res.status(400).send({ msg: 'Invalid password' });
     }
 
 }
 
-// Update profile
+// customer Update profile
 
 async function updateProfile(req, res) {
     const update = req.body;
@@ -76,11 +77,19 @@ async function updateProfile(req, res) {
     }
 
     const updateCustomer = await Customer(updateData)
-    return res.status(201).send({ msg: ' data update successfully' });
+    return res.status(201).send({ msg: ' Customer data update successfully' });
 
 };
 
-//delete Account
+//customer delete Account
+async function deleteCustomer(req,res){
+    const {id}=req.params;
 
+    const deleted=await customerService.deleteMovie(id);
+    if(!deleted){
+        return res.status(404).send({msg:'customer not found'});
+    }
+    return res.status(200).send({msg:'customer deleted successfully'});
+    }
 
-module.exports = { signUp, logIn, updateProfile };
+module.exports = { signUp, logIn, updateProfile , deleteCustomer};

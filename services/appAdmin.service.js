@@ -3,7 +3,7 @@ const db = require('../models');
 const appAdminModel = db.AppAdmin;
 
 async function checkAdmin(email) {
-    const checkAdmin = await db.Staff.findOne({
+    const checkAdmin = await db.AppAdmin.findOne({
         where:
         {
             email: email

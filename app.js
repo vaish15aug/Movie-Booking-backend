@@ -3,11 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const dotenv=require('dotenv');
+const dotenv = require('dotenv');
 dotenv.config();
+
+const port = process.env.PORT || 3000;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const customerRoutes = require('./routes/customer');
+const appAdminRoutes = require('./routes/appAdmin');
+const staffRoutes =require('./routes/staff');
+const customerBookingRoutes=require('./routes/customerBooking');
+const showsRoutes=require('./routes/shows');
+const theaterRoutes=require('./routes/theater');
+const movieRoutes=require('./routes/movie');
+
 
 var app = express();
 
@@ -23,6 +33,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/customer', customerRoutes);
+app.use('/appAdmin', appAdminRoutes);
+app.use('/staff',staffRoutes);
+app.use('/shows',showsRoutes);
+app.use('/customerBooking',customerBookingRoutes);
+app.use('/theater',theaterRoutes);
+app.use('/movie',movieRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

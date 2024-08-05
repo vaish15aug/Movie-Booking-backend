@@ -1,22 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
     const Shows = sequelize.define('shows', {
-
-        id: {
+        showId: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         movieId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
+            allowNull: false
         },
         theaterId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
+            allowNull: false
         },
         startTime: {
             type: DataTypes.TIME,
@@ -26,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TIME,
             allowNull: false
         },
-        ticketPrice:{
+        ticketPrice: {
             type: DataTypes.FLOAT,
-            allowNull:false
+            allowNull: false
         },
         screen: {
             type: DataTypes.STRING,
@@ -39,10 +34,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         createdAt: {
-            type: timestamps
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         updatedAt: {
-            type: timestamps
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         showDate: {
             type: DataTypes.DATE,
@@ -55,8 +54,3 @@ module.exports = (sequelize, DataTypes) => {
     });
     return Shows;
 }
-
-
-
-
-

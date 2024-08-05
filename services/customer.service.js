@@ -2,7 +2,7 @@ const db = require('../models');
 const customerModel = db.Customer;
 
 async function checkCustomer(email) {
-    const checkCustomer = await db.Staff.findOne({
+    const checkCustomer = await db.Customer.findOne({
         where:
         {
             email: email
@@ -18,4 +18,14 @@ async function checkCustomer(email) {
 
     return customer;
 }
-module.exports = { createCustomer,checkCustomer };
+
+//delete customer 
+const deleteCustomer = async (id) => {
+
+    const result = await customerModel.destroy({
+        where: { id }
+    });
+
+    return result > 0;
+}
+module.exports = { createCustomer,checkCustomer, deleteCustomer };

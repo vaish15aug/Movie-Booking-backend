@@ -23,30 +23,21 @@ module.exports = (sequelize, DataTypes) => {
             unique: true
         },
         phone: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        customerName: {
-
             type: DataTypes.STRING,
             allowNull: false
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        phone: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        
         },
         createdAt: {
-            type: timestamps
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         updatedAt: {
-            type: timestamps
-        }
-
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
+        },
+        
     });
     return Customer;
 }

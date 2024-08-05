@@ -27,7 +27,7 @@ async function createShows(req, res) {
 
 // get all shows
 async function getAllShows(req, res) {
-    const { showDay, showDate, page = 1, pageSize = 10, sort = 'ASC', city, state,movieId } = req.query;
+    const { showDate, page = 1, pageSize = 10, sort = 'ASC', city, state, movieId } = req.query;
     try {
         const theaterData = await theaterService.getAllTheater({
             city: city,
@@ -37,23 +37,22 @@ async function getAllShows(req, res) {
         })
         const theaterList = theaterData.theaterList;
         const count = theaterData.count;
-        for(let i=0; i< theaterData.length; i++){
-            const theater=theaterData[i];
-            const theaterId= theater.id; 
-        
+        for (let i = 0; i < theaterData.length; i++) {
+            const theater = theaterData[i];
+            const theaterId = theater.id;
 
-        const allShows = await showsService.getAllShows({
-            showDay: showDay,
-            showDate: showDate,
-            offset: (page - 1) * pageSize,
-            limit: pageSize,
-            sort: sort
-        });
-    }
-        const { rows } = allShows;
-        
+
+            const allShows = await showsService.getAllShows({
+                movieId: movieId,
+                theaterId: theaterId,
+                showDate: showDate,
+                
+            });
+            theater["shows"]=allShows;
+        }
+
         return res.status(200).send({
-            data: rows,
+            data: theaterList,
             totalShows: count,
         });
     }
@@ -108,7 +107,7 @@ async function updateShow(req, res) {
 async function deleteShow(req, res) {
     const id = req.params.id;
     try {
-        const deleted = await movieService.deleteShow(id);
+        const deleted = await showsService.deleteShow(id);
         if (!deleted) {
             return res.status(404).send({ msg: 'Show not found' });
         }
