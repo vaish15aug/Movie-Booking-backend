@@ -14,4 +14,4 @@ const loginSchema=Joi.object({
     password:Joi.string().required()
 
 });
-module.exports = { customerCreateSchema,loginSchema };
+module.exports = { customerCreateSchema,loginSchema };                                                                   

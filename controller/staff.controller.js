@@ -1,7 +1,11 @@
 const staffService = require('../services/staff.service');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const Jwt = require('jsonwebtoken');
 const jwtHelper = require('../helpers/jwtHelper');
+const salt = bcrypt.genSaltSync(10);
+const redisHelper = require('../helpers/redisHelper');
+const _ = require('underscore');
+const jwt = require('../helpers/jwtHelper');
 
 
 
@@ -9,6 +13,7 @@ async function loginStaff(req, res) {
     const loginData = req.body;
     console.log(loginData);
 
+    
     // find staff by email
     console.log("0");
     const checkStaff = await staffService.checkStaff(loginData.email);
@@ -17,7 +22,8 @@ async function loginStaff(req, res) {
     }
     console.log("1");
     // compare password
-    const result = bcrypt.compareSync(loginData.password, checkStaff.password)
+    const result =  bcrypt.compareSync(loginData.password, checkStaff.password,salt);
+    
     console.log("2");
     //create jwt payload and token
     if (result == true) {
@@ -25,7 +31,8 @@ async function loginStaff(req, res) {
         const payload = _.omit(checkStaff, ['password', 'createdAt', 'updatedAt']);
         console.log(payload);
         const token = jwt.generateToken(payload);
-
+        await redisHelper.setValue(token, JSON.stringify(payload));
+        
         await jwtHelper(token, JSON.stringify(payload));
         console.log("3");
         return res.status(200).send({ msg: 'login successfull.', token });
@@ -36,3 +43,5 @@ async function loginStaff(req, res) {
 }
 
 module.exports = { loginStaff };
+
+    

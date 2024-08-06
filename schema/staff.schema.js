@@ -5,4 +5,11 @@ const staffCreateSchema = Joi.object({
     email: Joi.string().required(),
     phone: Joi.string().required(),
 });
-module.exports = { staffCreateSchema };
+
+const loginSchema=Joi.object({
+
+    email: Joi.string().email().required(),
+    password:Joi.string().required()
+
+});
+module.exports = { staffCreateSchema ,loginSchema};

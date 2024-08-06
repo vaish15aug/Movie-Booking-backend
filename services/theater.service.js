@@ -9,9 +9,11 @@ async function checkTheater(email) {
             email:email
 
         },
-        raw: true
+        //raw: true
     });
+    console.log(checkTheater);
     return checkTheater;
+
 }
 
 // declaring create theater function

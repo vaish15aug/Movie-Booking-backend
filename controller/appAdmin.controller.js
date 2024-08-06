@@ -1,4 +1,4 @@
-
+const AppAdmin=require('../models');
 const appAdminSchema = require('../schema/appAdmin.schema');
 const appAdminService = require('../services/appAdmin.service');
 const bcrypt = require('bcrypt');
@@ -29,7 +29,7 @@ async function signUp(req, res) {
 
         const hash = await bcrypt.hash(adminData.password, salt);
         console.log(hash);
-        adminData['Password'] = hash;
+        adminData['password'] = hash;
 
         console.log("3");
         const createAdmin = await appAdminService.createAdmin(adminData)
@@ -56,7 +56,7 @@ async function logIn(req, res) {
     //compare password
     const result = bcrypt.compareSync(adminLogin.password, checkAdmin.password)
     console.log(result);
-    
+
     console.log("2");
     // create jwt payload ad token
     if (result == true) {
