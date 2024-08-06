@@ -6,6 +6,8 @@ client.on('error', (err) => {
     console.error('Redis error:', err);
 });
 
+client.connect();
+
 // Function to set a value in Redis
 const setValue = async (key, value, expiryInSeconds) => {
     await client.set(key, JSON.stringify(value), { EX:expiryInSeconds });

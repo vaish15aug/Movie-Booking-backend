@@ -1,23 +1,31 @@
-const Movie = require('../models');
+;
 const movieSchema = require('../schema/movie.schema');
 const movieService = require('../services/movie.service');
 
 
 async function createMovie(req, res) {
+
     const movieData = req.body;
     console.log(movieData);
 
+    console.log("1");
     const { error, value } = movieSchema.movieCreateSchema.validate(movieData);
     if (error) {
         return res.status(422).send(error.message);
 
     }
+    console.log("2");
     const user = res.locals.user;
+    if (!user || !user.id) {
+        return res.status(400).send({ msg: 'User is not authenticated or does not have an ID.' });
+    }
     const userId = user.id;
     movieData["createdBy"] = userId;
+    console.log("3");
     const createdMovie = await movieService.createMovie(movieData);
     return res.status(201).send({ msg: 'Movie created successfully' });
 }
+
 
 //to get all movie list
 async function getAllMovieList(req, res) {

@@ -9,8 +9,9 @@ async function checkAdmin(email) {
             email: email
 
         },
-        raw: true
+       // raw: true
     });
+    console.log(checkAdmin);
     return checkAdmin;
 }
 const createAdmin = async (adminData) => {

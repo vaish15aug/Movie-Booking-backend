@@ -8,10 +8,12 @@ async function checkCustomer(email) {
             email: email
 
         },
-        raw: true
+        // raw: true
     });
+    console.log(checkCustomer);
     return checkCustomer;
 }
+
     const createCustomer = async (customerData) => {
      //create new customer record in DataBase
     const customer = await customerModel.create(customerData);

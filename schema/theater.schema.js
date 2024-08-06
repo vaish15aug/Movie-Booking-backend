@@ -13,7 +13,8 @@ const combinedSchema = Joi.object({
     postalCode: Joi.string().required(),
     name: Joi.string().required(),
     email: Joi.string().required(),
-    phone: Joi.string().required()
+    phone: Joi.string().required(),
+    country: Joi.string().required()
 })
 
-module.exports = { theaterCreateSchema, addressSchema, combinedSchema };
+module.exports = { addressSchema, combinedSchema };

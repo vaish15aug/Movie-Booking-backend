@@ -16,6 +16,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "keywords": "^0.1.2",
+    "loadash": "^1.0.0",
     "morgan": "~1.9.1",
     "mysql2": "^3.11.0",
     "password": "^0.1.1",

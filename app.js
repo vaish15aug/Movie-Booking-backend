@@ -10,6 +10,7 @@ const port = process.env.PORT || 3000;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
 const customerRoutes = require('./routes/customer');
 const appAdminRoutes = require('./routes/appAdmin');
 const staffRoutes =require('./routes/staff');
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 
 app.use('/customer', customerRoutes);
 app.use('/appAdmin', appAdminRoutes);

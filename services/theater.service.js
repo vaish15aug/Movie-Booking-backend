@@ -2,6 +2,18 @@ const db = require('../models');
 const theaterModel= db.Theater;
 const {Op}=require ('sequelize');
 
+async function checkTheater(email) {
+    const checkTheater = await db.Theater.findOne({
+        where:
+        {
+            email:email
+
+        },
+        raw: true
+    });
+    return checkTheater;
+}
+
 // declaring create theater function
 const createTheater = async ( theaterData) => {
    
@@ -30,4 +42,4 @@ const getAllTheater=async(queryParams)=>{
     const count =await db.Theater.count({where:whereClause});
      return {theaterList,count};
 }
-module.exports = { createTheater,getAllTheater };
+module.exports = { createTheater,getAllTheater,checkTheater };

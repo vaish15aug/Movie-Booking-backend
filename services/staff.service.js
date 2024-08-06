@@ -8,7 +8,7 @@ const staffModel=db.Staff;
                 email: email
     
             },
-            raw: true
+           // raw: true
         });
         return checkStaff;
   }
