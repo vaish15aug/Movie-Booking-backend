@@ -12,7 +12,7 @@ const appAdminCreateSchema = Joi.object({
 });
 const adminLoginSchema=Joi.object({
 
-    email: Joi.string().email().required(),
+    email: Joi.string().required(),
     password:Joi.string().required()
 
 });

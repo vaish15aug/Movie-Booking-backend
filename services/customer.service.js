@@ -8,7 +8,7 @@ async function checkCustomer(email) {
             email: email
 
         },
-        // raw: true
+        raw: true
     });
     console.log(checkCustomer);
     return checkCustomer;

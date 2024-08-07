@@ -5,23 +5,23 @@ const theaterService = require('../services/theater.service');
 
 
 async function createShows(req, res) {
-    
-        const showsData = req.body;
-        console.log(showsData);
-console.log("0");
-        const { error, value } = showsSchema.showCreateSchema.validate(showsData);
-        if (error) {
-            return res.status(422).send(error.message);
-        }
-console.log("1");
-        const user = res.locals.user;
-        const userId = user.id;
-        console.log("2");
-        const showCreated = await showsService.createShows(showsData, userId)
-        return res.status(201).send({ msg: 'Shows created successfully' });
+
+    const showsData = req.body;
+    console.log(showsData);
+    console.log("0");
+    const { error, value } = showsSchema.showCreateSchema.validate(showsData);
+    if (error) {
+        return res.status(422).send(error.message);
     }
-    
-       
+    console.log("1");
+    const user = res.locals.user;
+    const userId = user.id;
+    console.log("2");
+    const showCreated = await showsService.createShows(showsData, userId)
+    return res.status(201).send({ msg: 'Shows created successfully' });
+}
+
+
 
 
 // get all shows
@@ -45,9 +45,9 @@ async function getAllShows(req, res) {
                 movieId: movieId,
                 theaterId: theaterId,
                 showDate: showDate,
-                
+
             });
-            theater["shows"]=allShows;
+            theater["shows"] = allShows;
         }
 
         return res.status(200).send({

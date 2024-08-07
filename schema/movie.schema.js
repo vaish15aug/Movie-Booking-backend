@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const movieCreateSchema = Joi.object({
+    
     title: Joi.string().min(1).max(255).required(),
     description: Joi.string().min(1).max(1000).required(),
     releseDate: Joi.date().iso().required(),

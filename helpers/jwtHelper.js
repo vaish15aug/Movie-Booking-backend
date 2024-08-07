@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // Function to generate a JWT token
 const generateToken = (payload,expiresIn = '8h') => {
     const secret =process.env.SECRET_KEY;
-    return jwt.sign(payload, secret, { expiresIn });
+    return jwt.sign(payload, secret, { expiresIn});
 };
 
 // Function to verify a JWT token
@@ -15,6 +15,7 @@ const verifyToken = (token) => {
         return payload;
     }
     catch(error){
+        console.log(error);
         throw Error('invalid token or token expire');
     }
     

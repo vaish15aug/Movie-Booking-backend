@@ -1,11 +1,11 @@
 const theaterService = require('../services/theater.service');
 const theaterSchema = require('../schema/theater.schema');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const Theater= require('../models');
 const salt = bcrypt.genSaltSync(10);
 const redisHelper = require('../helpers/redisHelper');
 const _ = require('underscore');
-
+const jwt = require('../helpers/jwtHelper');
 
 
 
@@ -28,7 +28,9 @@ async function theaterRegister(req, res) {
 
         console.log("2")
         const hash = await bcrypt.hash(registerData.password, salt);
-        registerData['password'] = hash
+        console.log(hash);
+        registerData['password'] = hash;
+
         // create theater
         console.log("3");
         const created = await theaterService.createTheater(registerData);

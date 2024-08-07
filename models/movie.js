@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Movies = sequelize.define('movie', {
 
         title: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         description: {
@@ -14,12 +14,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull:false
         },
         releseDate: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        posterImg: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        movieImage: {
+            type: DataTypes.STRING,
+            allowNull: true
         },
         createdBy: {
             type: DataTypes.STRING,

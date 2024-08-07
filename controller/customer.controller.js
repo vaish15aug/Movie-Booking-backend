@@ -62,8 +62,9 @@ async function logIn(req, res) {
         const token = jwt.generateToken(payload);
 
         await redisHelper.setValue(token, JSON.stringify(payload));
-        
+
         console.log("2");
+        
         return res.status(200).send({ msg: 'login successfull.', token });
     }
     else {

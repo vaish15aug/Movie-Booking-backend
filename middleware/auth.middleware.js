@@ -1,4 +1,5 @@
 const jwtHelper = require('../helpers/jwtHelper');
+const redisHelper = require('../helpers/redisHelper');
 
 const checkJwt = async (req, res, next) => {
     try {
@@ -7,7 +8,8 @@ const checkJwt = async (req, res, next) => {
         
         if (auth) {
             const token = auth.split(' ')[1];
-            const gData = await redisService.getData(token);
+           
+            const gData = await redisHelper.getValue(token);
             if (!gData) {
                 return res.status(403).send({ message: 'request forbidden' });
 

@@ -32,7 +32,7 @@ async function signUp(req, res) {
         adminData['password'] = hash;
 
         console.log("3");
-        const createAdmin = await appAdminService.createAdmin(adminData)
+        const createAdmin = await appAdminService.createAdmin(adminData);
         return res.status(201).send({ msg: 'Admin registered successfully.' });
     }
     catch (error) {
@@ -55,7 +55,7 @@ async function logIn(req, res) {
     console.log("1");
     //compare password
     const result = bcrypt.compareSync(adminLogin.password, checkAdmin.password)
-    console.log(result);
+
 
     console.log("2");
     // create jwt payload ad token

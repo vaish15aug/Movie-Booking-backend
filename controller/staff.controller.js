@@ -1,4 +1,5 @@
 const staffService = require('../services/staff.service');
+const staffSchema = require('../schema/staff.schema');
 const bcrypt = require('bcrypt');
 const Jwt = require('jsonwebtoken');
 const jwtHelper = require('../helpers/jwtHelper');
@@ -13,7 +14,6 @@ async function loginStaff(req, res) {
     const loginData = req.body;
     console.log(loginData);
 
-    
     // find staff by email
     console.log("0");
     const checkStaff = await staffService.checkStaff(loginData.email);
