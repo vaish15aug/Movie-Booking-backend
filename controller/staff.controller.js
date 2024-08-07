@@ -22,7 +22,7 @@ async function loginStaff(req, res) {
     }
     console.log("1");
     // compare password
-    const result =  bcrypt.compareSync(loginData.password, checkStaff.password,salt);
+    const result =  bcrypt.compareSync(loginData.password, checkStaff.password);
     
     console.log("2");
     //create jwt payload and token
@@ -32,9 +32,10 @@ async function loginStaff(req, res) {
         console.log(payload);
         const token = jwt.generateToken(payload);
         await redisHelper.setValue(token, JSON.stringify(payload));
-        
-        await jwtHelper(token, JSON.stringify(payload));
+       
+
         console.log("3");
+
         return res.status(200).send({ msg: 'login successfull.', token });
     }
     else{

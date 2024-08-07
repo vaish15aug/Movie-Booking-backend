@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/auth.middleware');
 
 router.post('/createMovie', authMiddleware.checkJwt,movieController.createMovie);
 router.get('/getAllMovieList',authMiddleware.checkJwt,movieController.getAllMovieList);
-router.get('/getSingleMovie',movieController.getSingleMovie);
+router.get('/getSingleMovie/:id',authMiddleware.checkJwt,movieController.getSingleMovie);
 router.put('/updateMovie',movieController.updateMovie);
 router.delete('/deleteMovie',movieController.deleteMovie);
 

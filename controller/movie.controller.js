@@ -62,10 +62,11 @@ async function getAllMovieList(req, res) {
 // find single movie
 
 async function getSingleMovie(req, res) {
-    const movieTitle = req.body;
-    console.log(movieTitle);
-
-    const movie = await movieService.getMovieById(movieTitle);
+    
+    
+    const movieId = req.params.id;
+    console.log(movieId);
+    const movie = await movieService.getMovieById(movieId);
 
     //check if movie not found
     if (!movie) {

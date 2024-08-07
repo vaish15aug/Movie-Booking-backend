@@ -5,22 +5,28 @@ const theaterService = require('../services/theater.service');
 
 
 async function createShows(req, res) {
+    try {
+        const showsData = req.body;
+        console.log(showsData);
+        console.log("0");
+        const { error, value } = showsSchema.showCreateSchema.validate(showsData);
+        if (error) {
+            return res.status(422).send(error.message);
+        }
+        console.log("1");
+        const user = res.locals.verify;
+        console.log(user);
+        const userId = user.id;
 
-    const showsData = req.body;
-    console.log(showsData);
-    console.log("0");
-    const { error, value } = showsSchema.showCreateSchema.validate(showsData);
-    if (error) {
-        return res.status(422).send(error.message);
+        console.log("2");
+        const showCreated = await showsService.createShows(showsData, userId)
+        return res.status(201).send({ msg: 'Shows created successfully' });
     }
-    console.log("1");
-    const user = res.locals.user;
-    const userId = user.id;
-    console.log("2");
-    const showCreated = await showsService.createShows(showsData, userId)
-    return res.status(201).send({ msg: 'Shows created successfully' });
+    catch (error) {
+        console.log(error);
+        return res.status(500).send({ msg: ' internal server error' });
+    }
 }
-
 
 
 

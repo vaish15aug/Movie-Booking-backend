@@ -52,7 +52,7 @@ async function logIn(req, res) {
     }
     console.log("1");
     //compare password
-    const result = bcrypt.compareSync(customerLogin.password, checkCustomers.password)
+    const result =  bcrypt.compareSync(customerLogin.password, checkCustomers.password)
 
     // create jwt payload ad token
     if (result == true) {

@@ -16,6 +16,7 @@ const combinedSchema = Joi.object({
     phone: Joi.string().required(),
     password:Joi.string().required(),
     country: Joi.string().required()
-})
+});
+
 
 module.exports = { addressSchema, combinedSchema };
