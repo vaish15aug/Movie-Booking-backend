@@ -1,6 +1,6 @@
-const CustomerBooking = require('../models');
+const db = require('../models');
 const customerBookingService = require('../services/customerBooking.service');
-
+const customerBookingSchema = require('../schema/customerBooking.schema');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 const redisService = require('redis');
@@ -12,9 +12,14 @@ async function createBooking(req, res) {
         const ticketCount = req.body.ticketCount;
         const user = res.locals.verify;
         const userId = user.id;
-        const showId = req.params;
-        customerId = user.id;
+        const showId = req.params.showId;
+        console.log(req.params);
+        const customerId = user.id;
+        const bookingData = req.body;
+        console.log(bookingData);
 
+    
+        console.log("1")
         const show = await db.Shows.findOne({
             where: {
                 showId: showId
@@ -22,27 +27,31 @@ async function createBooking(req, res) {
             attributes: ['movieId', 'theaterId', 'ticketPrice', 'seats']
         });
 
+        
+        console.log("2")
+        
         const ticketPrice = show.ticketPrice;
         const seats = show.seats;
 
+        console.log("3")
         if (seats - ticketCount < 0) {
             return res.status(400).send({ msg: 'seats are not avaliable' });
         }
         const totalAmount = ticketPrice * ticketCount;
-
+        console.log("4")
         const customerBookingData = {
             customerId,
             showId,
             ticketCount,
             totalAmount
         };
-
-        const createdCustomerBooking = await customerBookingService.createCustomerBooking(bookingData);
+        console.log("5")
+        const createdCustomerBooking = await customerBookingService.createCustomerBooking(customerBookingData);
         return res.status(201).send({ msg: ' customer created successfully' });
     }
-    catch (err) {
-        console.error(err);
-        return res.staus(500).send({ msg: 'An unexpected error occoured' });
+    catch (error) {
+        console.log(error);
+        return res.status(500).send({ msg: ' internal server error' });
     }
 }
 

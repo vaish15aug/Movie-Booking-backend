@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         startTime: {
-            type: DataTypes.TIME,
+            type: DataTypes.DATE,
             allowNull: false
         },
         endTime: {
-            type: DataTypes.TIME,
+            type: DataTypes.DATE,
             allowNull: false
         },
         ticketPrice: {
@@ -29,10 +29,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        createdBy: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+        
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,

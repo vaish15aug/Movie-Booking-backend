@@ -3,24 +3,25 @@ const showsModel = db.Shows;
 
 
 const createShows = async (showsData, userId) => {
-    const created = [];
-
+    const shows = showsData.shows;
+    const movieId = showsData.movieId;
+    const theaterId = showsData.theaterId;
     console.log('starting to process shows data');
 
-    for (let i = 0; i < showsData.length; i++) {
-        const show = showsData[i];
+    for (let i = 0; i < shows.length; i++) {
+        const show = shows[i];
         show["createdBy"] = userId;
+        show["movieId"] = movieId;
+        show["theaterId"] = theaterId;
+
         console.log(`processing show ${i + 1}:`, show);
+
         const created = await showsModel.create(show);
-        console.log(`Successfully created show ${i + 1}:`, created);
-        created.push(created);
     }
 
     console.log('Finished processing shows data.');
-    console.log('Created shows:', created);
 
 
-    return createShows;
 };
 
 
@@ -42,7 +43,7 @@ async function getAllShows({ showDate, theaterId, movieId }) {
             'ticketPrice',
             'showDate',
             'screen'
-            
+
         ],
 
     });
@@ -58,7 +59,8 @@ async function getAllShows({ showDate, theaterId, movieId }) {
 async function getShowById(id) {
     const show = await db.Shows.findOne({
 
-        where: { id: id },
+        where: { showId: id },
+        raw: true
 
     });
 

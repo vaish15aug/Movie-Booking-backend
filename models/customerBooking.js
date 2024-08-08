@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        seats:{
+            type:DataTypes.INTEGER,
+            defaultValue:0
+        },
         totalAmount: {
             type: DataTypes.FLOAT,
             allowNull: false

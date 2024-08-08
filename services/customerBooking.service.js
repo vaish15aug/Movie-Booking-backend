@@ -10,4 +10,5 @@ const createCustomerBooking = async (customerBookingData) =>{
     return createdBooking;
     }
 
+   
 module.exports = { createCustomerBooking }

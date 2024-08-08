@@ -6,10 +6,11 @@ const theaterService = require('../services/theater.service');
 
 async function createShows(req, res) {
     try {
+        
         const showsData = req.body;
         console.log(showsData);
         console.log("0");
-        const { error, value } = showsSchema.showCreateSchema.validate(showsData);
+        const { error, value } = showsSchema.createshowsSchema.validate(showsData);
         if (error) {
             return res.status(422).send(error.message);
         }
@@ -17,6 +18,8 @@ async function createShows(req, res) {
         const user = res.locals.verify;
         console.log(user);
         const userId = user.id;
+        
+        
 
         console.log("2");
         const showCreated = await showsService.createShows(showsData, userId)
@@ -63,7 +66,7 @@ async function getAllShows(req, res) {
     }
     catch (error) {
         console.error(error);
-        return res.staus(500).send({ msg: 'An unexpected error occoured' });
+        return res.status(500).send({ msg: ' internal server error' });
     }
 }
 //get single show
@@ -72,6 +75,7 @@ async function getSingleShow(req, res) {
     const id = req.params.id;
     try {
         const show = await showsService.getShowById(id);
+        console.log(show);
         if (!show) {
             return res.status(404).send({ msg: 'show not found' });
         }
@@ -104,7 +108,7 @@ async function updateShow(req, res) {
     }
     catch (err) {
         console.error(err);
-        return res.staus(500).send({ msg: 'An unexpected error occoured' });
+        return res.status(500).send({ msg: ' internal server error' });
     }
 }
 
