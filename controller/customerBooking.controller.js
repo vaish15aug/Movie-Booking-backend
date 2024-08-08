@@ -13,12 +13,9 @@ async function createBooking(req, res) {
         const user = res.locals.verify;
         const userId = user.id;
         const showId = req.params.showId;
-        console.log(req.params);
         const customerId = user.id;
-        const bookingData = req.body;
-        console.log(bookingData);
+       
 
-    
         console.log("1")
         const show = await db.Shows.findOne({
             where: {
@@ -26,13 +23,12 @@ async function createBooking(req, res) {
             },
             attributes: ['movieId', 'theaterId', 'ticketPrice', 'seats']
         });
-
-        
-        console.log("2")
-        
+       
         const ticketPrice = show.ticketPrice;
         const seats = show.seats;
 
+        
+       
         console.log("3")
         if (seats - ticketCount < 0) {
             return res.status(400).send({ msg: 'seats are not avaliable' });
