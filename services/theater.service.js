@@ -30,17 +30,21 @@ const getAllTheater=async(queryParams)=>{
      const limit= queryParams.limit;
      const offset=queryParams.offset;
      const whereClause= {
+       
         [Op.and] : [{city:city},{state:state}]
      }
-    const theaterList = await theaterModel.find({
+    
+    const theaterList = await theaterModel.findAll({
         where:whereClause,
         limit,
         offset,
         attributes:[
-            id,
-            theaterName
-        ]
+            'id',
+            'theaterName'
+        ],
+        raw: true
     })
+   
     const count =await db.Theater.count({where:whereClause});
      return {theaterList,count};
 }

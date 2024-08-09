@@ -6,6 +6,7 @@ const showSchema = Joi.object({
     screen: Joi.string().required(),
     ticketPrice: Joi.number().precision(2).positive().required(),
     showDate: Joi.date().iso().required(),
+    seats:Joi.number().integer().min(1).required(),
     showDay: Joi.string().valid('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday').required()
 });
 

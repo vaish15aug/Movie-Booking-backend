@@ -25,6 +25,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             allowNull: false
         },
+        seats:{
+            type:DataTypes.INTEGER,
+            allowNull:false
+        },
+        
         screen: {
             type: DataTypes.STRING,
             allowNull: false

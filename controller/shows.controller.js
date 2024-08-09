@@ -6,7 +6,7 @@ const theaterService = require('../services/theater.service');
 
 async function createShows(req, res) {
     try {
-        
+
         const showsData = req.body;
         console.log(showsData);
         console.log("0");
@@ -18,8 +18,8 @@ async function createShows(req, res) {
         const user = res.locals.verify;
         console.log(user);
         const userId = user.id;
-        
-        
+
+
 
         console.log("2");
         const showCreated = await showsService.createShows(showsData, userId)
@@ -36,6 +36,7 @@ async function createShows(req, res) {
 // get all shows
 async function getAllShows(req, res) {
     const { showDate, page = 1, pageSize = 10, sort = 'ASC', city, state, movieId } = req.query;
+    
     try {
         const theaterData = await theaterService.getAllTheater({
             city: city,
@@ -43,26 +44,28 @@ async function getAllShows(req, res) {
             limit: pageSize,
             offset: (page - 1) * pageSize
         })
+
         const theaterList = theaterData.theaterList;
         const count = theaterData.count;
-        for (let i = 0; i < theaterData.length; i++) {
-            const theater = theaterData[i];
+        for (let i = 0; i < theaterList.length; i++) {
+            const theater = theaterList[i];
             const theaterId = theater.id;
 
-
             const allShows = await showsService.getAllShows({
-                movieId: movieId,
                 theaterId: theaterId,
                 showDate: showDate,
+                movieId: movieId,
 
             });
             theater["shows"] = allShows;
+            console.log(theater)
         }
 
         return res.status(200).send({
             data: theaterList,
             totalShows: count,
         });
+
     }
     catch (error) {
         console.error(error);
@@ -95,7 +98,7 @@ async function updateShow(req, res) {
 
     try {
         // Validate  data
-        const { error, value } = showsSchema.showUpdateSchema.validate(updateData);
+        const { error, value } = showsSchema.showsUpdateSchema.validate(updateData);
         if (error) {
             return res.status(422).send({ msg: error.message });
         }

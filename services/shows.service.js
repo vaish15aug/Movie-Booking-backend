@@ -1,5 +1,6 @@
 const db = require('../models');
 const showsModel = db.Shows;
+const{Op}= require('sequelize');
 
 
 const createShows = async (showsData, userId) => {
@@ -27,17 +28,20 @@ const createShows = async (showsData, userId) => {
 
 //get all shows
 
-async function getAllShows({ showDate, theaterId, movieId }) {
+async function getAllShows(params) {
+    const movieId= params.movieId;
+    const theaterId = params.theaterId;
+    const showDate = params.showDate;
     let whereClause = {
-        [Op.and]: [{ theterId: theaterId }, { movieId: movieId }],
-        [Op.eq]: [{ showDate: new Date(showDate) }]
+        [Op.and]: [{ theaterId: theaterId }, { movieId: movieId }],
+        // [Op.eq]: [{ showDate: new Date(showDate) }]
     };
 
     const shows = await db.Shows.findAll({
         where: whereClause,
 
         attributes: [
-            'id',
+            'showId',
             'startTime',
             'endTime',
             'ticketPrice',
@@ -45,9 +49,10 @@ async function getAllShows({ showDate, theaterId, movieId }) {
             'screen'
 
         ],
+        raw: true
 
     });
-
+console.log(shows);
     return shows
 
 };

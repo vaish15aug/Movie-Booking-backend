@@ -41,7 +41,7 @@ async function createMovie(req, res) {
 //to get all movie list
 async function getAllMovieList(req, res) {
     const { page = 1, pageSize = 10, searchText, language } = req.query;
-    const getAllMovieData = req.body
+    const getAllMovieData = req.body;
     console.log(getAllMovieData);
 
     const allMovie = await movieService.getAllMovie({
@@ -80,7 +80,7 @@ async function getSingleMovie(req, res) {
 async function updateMovie(req, res) {
 
     try {
-        const { id } = req.params;
+        const { id } = req.params.id;
         const updateData = req.body;
         console.log(updateData);
 
@@ -94,11 +94,12 @@ async function updateMovie(req, res) {
         if (!updatedMovie) {
             return res.status(404).send({ msg: 'Movie not found or update failed' });
         }
+        const movieUpdated = await movieService.updateMovie(id,updateData);
         return res.status(200).send({ msg: 'Movie updated successfully' });
     }
-    catch (err) {
-        console.error(err);
-        return res.staus(500).send({ msg: 'An unexpected error occoured' });
+    catch (error) {
+        console.log(error);
+        return res.staus(500).send({ msg: 'internal server error' });
     }
 }
 
